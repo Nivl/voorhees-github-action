@@ -90,10 +90,13 @@ async function run() {
 
     // Run voorhees
     const goListStream = fs.createReadStream(goListFile);
-    const proc = exec("voorhees");
+    const proc = exec("./voorhees");
     proc.stdin.pipe(goListStream);
     proc.stderr.pipe(process.stderr);
     proc.stdin.end();
+    if (proc.exitCode) {
+      core.setFailed("failed running voorhees");
+    }
   } catch (error) {
     core.setFailed(error.message);
   }
