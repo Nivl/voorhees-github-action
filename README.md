@@ -1,6 +1,6 @@
 # voorhees-github-action
 
-[description]
+This action runs [Voorhees](https://github.com/Nivl/voorhees) and reports dependency issues.
 
 ## Inputs
 
