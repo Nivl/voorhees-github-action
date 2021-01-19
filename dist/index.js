@@ -7,6 +7,7 @@ module.exports =
 
 const os = __nccwpck_require__(2087);
 const fs = __nccwpck_require__(5747);
+const path = __nccwpck_require__(5622);
 const { exec } = __nccwpck_require__(3129);
 const core = __nccwpck_require__(9935);
 const tc = __nccwpck_require__(2275);

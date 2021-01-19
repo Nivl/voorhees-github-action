@@ -1,5 +1,6 @@
 const os = require("os");
 const fs = require("fs");
+const path = require("path");
 const { exec } = require("child_process");
 const core = require("@actions/core");
 const tc = require("@actions/tool-cache");
