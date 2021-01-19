@@ -54,7 +54,7 @@ async function run() {
       }
       const version = semver.coerce(release.tag_name);
       if (semver.satisfies(version, matcher)) {
-        versionToDownload = release.tag_name;
+        versionToDownload = version;
         break;
       }
     }
@@ -168,7 +168,7 @@ function getDownloadURL(version) {
     default:
       return null;
   }
-  return `${downloadBaseURL}/download/${version}/voorhees_${version}_${platform}_${arch}.tar.gz`;
+  return `${downloadBaseURL}/download/v${version}/voorhees_${version}_${platform}_${arch}.tar.gz`;
 }
 
 
