@@ -36,6 +36,7 @@ async function run() {
     }
 
     // Find the asset we need to download
+    core.info(`Check latest versions at /repos/Nivl/voorhees/releases`);
     const resp = await request("GET /repos/{owner}/{repo}/releases", {
       owner: "Nivl",
       repo: "voorhees",
@@ -64,9 +65,9 @@ async function run() {
 
     // Download asset and extract it
     const assetURL = getDownloadURL(versionToDownload);
+    core.info(`Downloading asset at ${assetURL}`);
     const archivePath = await tc.downloadTool(assetURL);
-    let extractedDir = "";
-    extractedDir = await tc.extractTar(archivePath);
+    const extractedDir = await tc.extractTar(archivePath);
     const urlParts = assetURL.split(`/`);
     const dirName = urlParts[urlParts.length - 1].slice(0, ".tar.gz".length);
     const binPath = path.join(extractedDir, dirName, `voorhees`);

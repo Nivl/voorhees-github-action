@@ -29,6 +29,7 @@ async function run() {
     }
 
     // Find the asset we need to download
+    core.info(`Check latest versions at /repos/Nivl/voorhees/releases`);
     const resp = await request("GET /repos/{owner}/{repo}/releases", {
       owner: "Nivl",
       repo: "voorhees",
