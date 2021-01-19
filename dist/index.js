@@ -88,13 +88,9 @@ async function run() {
     const proc = spawn("./voorhees", { stdio: ["pipe", 1, 2, "ipc"] });
     goListStream.pipe(proc.stdin);
 
-    // const proc = exec("./voorhees");
-    // proc.stdin.pipe(goListStream);
-    // proc.stderr.pipe(process.stderr);
-    // proc.stdin.end();
-    if (proc.exitCode) {
-      core.setFailed("failed running voorhees");
-    }
+    proc.on("close", (code) => {
+      core.setFailed("");
+    });
   } catch (error) {
     core.setFailed(error.message);
   }
