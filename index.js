@@ -9,7 +9,7 @@ const { request } = require("@octokit/request");
 
 run();
 
-const downloadBaseURL = "https://github.com/Nivl/voorhees/releases/";
+const downloadBaseURL = "https://github.com/Nivl/voorhees/releases";
 
 async function run() {
   try {
@@ -29,7 +29,7 @@ async function run() {
     }
 
     // Find the asset we need to download
-    core.info(`Check latest versions at /repos/Nivl/voorhees/releases`);
+    core.info(`Checking latest versions at /repos/Nivl/voorhees/releases`);
     const resp = await request("GET /repos/{owner}/{repo}/releases", {
       owner: "Nivl",
       repo: "voorhees",
@@ -47,7 +47,7 @@ async function run() {
       }
       const version = semver.coerce(release.tag_name);
       if (semver.satisfies(version, matcher)) {
-        versionToDownload = version;
+        versionToDownload = release.tag_name;
         break;
       }
     }
@@ -55,9 +55,16 @@ async function run() {
       core.setFailed(`no version found for ${versionWanted}`);
       return;
     }
+    core.info(`found ${versionToDownload}`);
 
     // Download asset and extract it
     const assetURL = getDownloadURL(versionToDownload);
+    if (!assetURL) {
+      core.setFailed(
+        `system no supported ${os.platform().toString()} ${os.arch()}`
+      );
+      return;
+    }
     core.info(`Downloading asset at ${assetURL}`);
     const archivePath = await tc.downloadTool(assetURL);
     const extractedDir = await tc.extractTar(archivePath);
@@ -154,5 +161,5 @@ function getDownloadURL(version) {
     default:
       return null;
   }
-  return `${downloadBaseURL}/${version}/download/voorhees_${version}_${platform}_${arch}.tar.gz`;
+  return `${downloadBaseURL}/download/${version}/voorhees_${version}_${platform}_${arch}.tar.gz`;
 }
