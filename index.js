@@ -1,7 +1,7 @@
 const os = require("os");
 const fs = require("fs");
 const path = require("path");
-const { exec } = require("child_process");
+const { spawn } = require("child_process");
 const core = require("@actions/core");
 const tc = require("@actions/tool-cache");
 const github = require("@actions/github");
@@ -71,18 +71,6 @@ async function run() {
     const archivePath = await tc.downloadTool(assetURL);
     const extractedDir = await tc.extractTar(archivePath);
 
-    core.info(`cwd ${process.cwd()}`);
-    core.info(`archivePath ${archivePath}`);
-    core.info(`extractedDir ${extractedDir}`);
-
-    // let proc2 = exec("ls");
-    // proc2.stdout.pipe(process.stdout);
-
-    // proc2 = exec(`ls -l ${extractedDir}`);
-    // proc2.stdout.pipe(process.stdout);
-
-    // const urlParts = assetURL.split(`/`);
-    // const dirName = urlParts[urlParts.length - 1].slice(0, -".tar.gz".length);
     const binPath = path.join(extractedDir, `voorhees`);
     const expectedBinPath = path.join(process.cwd(), `voorhees`);
     fs.renameSync(binPath, expectedBinPath);
@@ -90,10 +78,13 @@ async function run() {
 
     // Run voorhees
     const goListStream = fs.createReadStream(goListFile);
-    const proc = exec("./voorhees");
-    proc.stdin.pipe(goListStream);
-    proc.stderr.pipe(process.stderr);
-    proc.stdin.end();
+    const proc = spawn("./voorhees", { stdio: ["pipe", 1, 2, "ipc"] });
+    goListStream.pipe(proc.stdin);
+
+    // const proc = exec("./voorhees");
+    // proc.stdin.pipe(goListStream);
+    // proc.stderr.pipe(process.stderr);
+    // proc.stdin.end();
     if (proc.exitCode) {
       core.setFailed("failed running voorhees");
     }
