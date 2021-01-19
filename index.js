@@ -2,9 +2,11 @@ const os = require("os");
 const fs = require("fs");
 const path = require("path");
 const { spawn } = require("child_process");
+
 const core = require("@actions/core");
 const tc = require("@actions/tool-cache");
 const github = require("@actions/github");
+
 const semver = require("semver");
 const { request } = require("@octokit/request");
 
