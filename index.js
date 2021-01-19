@@ -78,12 +78,12 @@ async function run() {
     // let proc2 = exec("ls");
     // proc2.stdout.pipe(process.stdout);
 
-    proc2 = exec(`ls -l ${extractedDir}`);
-    proc2.stdout.pipe(process.stdout);
+    // proc2 = exec(`ls -l ${extractedDir}`);
+    // proc2.stdout.pipe(process.stdout);
 
-    const urlParts = assetURL.split(`/`);
-    const dirName = urlParts[urlParts.length - 1].slice(0, -".tar.gz".length);
-    const binPath = path.join(extractedDir, dirName, `voorhees`);
+    // const urlParts = assetURL.split(`/`);
+    // const dirName = urlParts[urlParts.length - 1].slice(0, -".tar.gz".length);
+    const binPath = path.join(extractedDir, `voorhees`);
     const expectedBinPath = path.join(process.cwd(), `voorhees`);
     fs.renameSync(binPath, expectedBinPath);
     core.info(`Installed voorhees at into ${expectedBinPath}`);
