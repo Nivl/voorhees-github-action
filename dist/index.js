@@ -73,15 +73,20 @@ async function run() {
       );
       return;
     }
+
     core.info(`Downloading asset at ${assetURL}`);
     const archivePath = await tc.downloadTool(assetURL);
     const extractedDir = await tc.extractTar(archivePath);
 
-    let proc2 = exec("ls");
-    proc2.stdout.pipe(process.stdout);
+    core.info(`cwd ${process.cwd()}`);
+    core.info(`archivePath ${archivePath}`);
+    core.info(`extractedDir ${extractedDir}`);
 
-    proc2 = exec(`ls ${extractedDir}`);
-    proc2.stdout.pipe(process.stdout);
+    // let proc2 = exec("ls");
+    // proc2.stdout.pipe(process.stdout);
+
+    // proc2 = exec(`ls ${extractedDir}`);
+    // proc2.stdout.pipe(process.stdout);
 
     const urlParts = assetURL.split(`/`);
     const dirName = urlParts[urlParts.length - 1].slice(0, -".tar.gz".length);
