@@ -82,7 +82,9 @@ async function run() {
     goListStream.pipe(proc.stdin);
 
     proc.on("close", (code) => {
-      core.setFailed("");
+      if (code) {
+        core.setFailed("");
+      }
     });
   } catch (error) {
     core.setFailed(error.message);
