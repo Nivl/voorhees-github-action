@@ -70,7 +70,7 @@ async function run() {
     const archivePath = await tc.downloadTool(assetURL);
     const extractedDir = await tc.extractTar(archivePath);
     const urlParts = assetURL.split(`/`);
-    const dirName = urlParts[urlParts.length - 1].slice(0, ".tar.gz".length);
+    const dirName = urlParts[urlParts.length - 1].slice(0, -".tar.gz".length);
     const binPath = path.join(extractedDir, dirName, `voorhees`);
     const expectedBinPath = path.join(extractedDir, `voorhees`);
     fs.renameSync(binPath, expectedBinPath);
